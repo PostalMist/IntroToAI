@@ -26,7 +26,7 @@ def generateNeighbors(map, origin_node):
     neighbors = []
     x, y = origin_node.location()
 
-    if(x == 0): # not done
+    if(x == 0): # not done yet
         left = Node()
         if()
         neighbors.append(left)
