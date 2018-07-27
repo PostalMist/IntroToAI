@@ -1,3 +1,5 @@
+import math
+
 class Node:
     def __init__(self, x, y, value, f = 0, g = 0, h = 0, parent = 0):
         self.x = x # row
@@ -11,6 +13,24 @@ class Node:
         self.f = self.g + self.h
     def location():
         return self.x, self.y
+
+def generateNeighbors(map, origin_node):
+    """
+        Args:
+            map: 2D Array of 0 and 1 values indicating blocked (0) and unblocked (1) cells
+            origin_node: Node from which to derive its neighbors
+        Returns:
+            List of Nodes which are neighbors (UP, DOWN, LEFT, and RIGHT) of the origin_node
+    """
+
+    neighbors = []
+    x, y = origin_node.location()
+
+    if(x == 0): # not done
+        left = Node()
+        if()
+        neighbors.append(left)
+        neighbors.append(right)
 
 def PathFinder(map, initial_x, initial_y, goal_x, goal_y):
     """
