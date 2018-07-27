@@ -14,10 +14,25 @@ class Node:
     def location():
         return self.x, self.y
 
-def generateNeighbors(map, origin_node):
+def path_cost(origin_node):
     """
         Args:
-            map: 2D Array of 0 and 1 values indicating blocked (0) and unblocked (1) cells
+            origin_node: Node from which to derive its path cost
+        Returns:
+            Nothing, sets the origin_node's g value
+    """
+
+    if(origin_node.value == 1):
+        origin_node.g = 0
+        return
+    elif(origin_node.value == 0):
+        origin_node.g = math.Inf
+        return
+
+def generateNeighbors(maze_map, origin_node):
+    """
+        Args:
+            maze_map: 2D Array of 0 and 1 values indicating blocked (0) and unblocked (1) cells
             origin_node: Node from which to derive its neighbors
         Returns:
             List of Nodes which are neighbors (UP, DOWN, LEFT, and RIGHT) of the origin_node
@@ -26,16 +41,50 @@ def generateNeighbors(map, origin_node):
     neighbors = []
     x, y = origin_node.location()
 
-    if(x == 0): # not done yet
-        left = Node()
-        if()
-        neighbors.append(left)
-        neighbors.append(right)
+    if(x == 0): # top left corner or top right corner
+        if(y == 0): # top left
+            right = Node(x + 1, y, maze_map[x + 1][y])
+            path_cost(right)
+            right.update_f()
 
-def PathFinder(map, initial_x, initial_y, goal_x, goal_y):
+            down = Node(x, y + 1, maze_map[x][y + 1])
+            path_cost(down)
+            down.update_f()
+
+            neighbors.append(right)
+            neighbors.append(down)
+        elif(y == len(maze_map[x]) - 1): # top right
+            left = Node(x - 1, y, maze_map[x - 1][y])
+            path_cost(left)
+            left.update_f()
+
+            down = Node(x, y + 1, maze_map[x][y + 1])
+            path_cost(down)
+            down.update_f()
+
+            neighbors.append(left)
+            neighbors.append(down)
+        else: # top border
+            right = Node(x + 1, y, maze_map[x + 1][y])
+            path_cost(right)
+            right.update_f()
+
+            left = Node(x - 1, y, maze_map[x - 1][y])
+            path_cost(left)
+            left.update_f()
+
+            down = Node(x, y + 1, maze_map[x][y + 1])
+            path_cost(down)
+            down.update_f()
+
+            neighbors.append(right)
+            neighbors.append(left)
+            neighbors.append(down)
+
+def PathFinder(maze_map, initial_x, initial_y, goal_x, goal_y):
     """
         Args:
-            map: 2D Array of 0 and 1 values indicating blocked (0) and unblocked (1) cells
+            maze_map: 2D Array of 0 and 1 values indicating blocked (0) and unblocked (1) cells
             initial_x: integer value denoting the starting row
             initial_y: integer value denoting the starting column
             goal_x: integer value denoting the goal row
@@ -48,7 +97,7 @@ def PathFinder(map, initial_x, initial_y, goal_x, goal_y):
     pathExists = True # boolean flag for whether or not path exists, assumed True until determined False
 
     open_list = []
-    open_list.append(Node(initial_x, initial_y, map[initial_x][initial_y]))
+    open_list.append(Node(initial_x, initial_y, maze_map[initial_x][initial_y]))
     closed_list = []
 
     while(len(open_list) != 0):
